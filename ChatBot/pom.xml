@@ -24,19 +24,27 @@
       <artifactId>junit</artifactId>
       <version>4.11</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-params</artifactId>
-      <version>5.8.1</version>
-      <scope>test</scope>
+  </dependency>
+  <dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter-params</artifactId>
+    <version>5.8.1</version>
+    <scope>test</scope>
   </dependency>
     <dependency>
       <groupId>org.apache.opennlp</groupId>
       <artifactId>opennlp-tools</artifactId>
       <version>1.9.4</version>
     </dependency>
-  </dependencies>
+  <dependency>
+    <groupId>com.dropbox.core</groupId>
+    <artifactId>dropbox-core-sdk</artifactId>
+    <version>5.2.0</version>
+  </dependency>
+
+</dependencies>
+ 
+
 
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->

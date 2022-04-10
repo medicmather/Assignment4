@@ -18,19 +18,33 @@ import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.awt.*;
 import javax.swing.*;
+
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+//import com.dropbox.core.v2.users.DbxUserUsersRequests;
+import com.dropbox.core.v2.users.FullAccount;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+//import java.io.FileNotFoundException;
+//import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
 //----------------------------------------------------------------------------------------------------------------------------
 // our class ChatBot which extends JFrame and implements the action listener
 public class ChatBot extends JFrame implements ActionListener {
 
   // ----------------------------------------------------------------------------------------------------------------------------
-
+  private static final String ACCESS_TOKEN = "sl.BFaAPMI6NzIKxNWPmG2HjI6IbJ0nbXsOa3TI98oI2p-WkmX4TLvwPBw2otnYMJXK_0pZJ_yIrT8NwJVYk5Eys1ijk_ncAtXy6bWI5SDsRjZ6XGt3e-UfPx1_KBWX0KTbcgNfh42H0Dg";
   // creating a static ryan reynolds object so its accessible by all methods
   public static RyanReynolds r = new RyanReynolds("6ft 2", 190, "hazel", "light brown", "male", "Vancouver",
       "October 23 1976",
@@ -562,6 +576,11 @@ public class ChatBot extends JFrame implements ActionListener {
           e1.printStackTrace();
         }
 
+      
+
+
+      
+
         // here we set the chatField to be the empty text to reset it after the user
         // entered their question
         chatField.setText("");
@@ -596,7 +615,53 @@ public class ChatBot extends JFrame implements ActionListener {
   // ----------------------------------------------------------------------------------------------------------------------------
 
   // this is our main method for the class
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
+    //String fileLocation="fileLocation"+ fileName;
+    //File file = new File(fileLocation);
+
+
+    
+
+    //System.out.println("Hi");
+		
+		try {
+      
+			DbxRequestConfig config = new DbxRequestConfig("dropbox/Assignment4.1");
+			DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+			FullAccount account= client.users().getCurrentAccount();
+			//DbxUserUsersRequests r1 = client.users();
+			//account = r1.getCurrentAccount();
+			System.out.println(account.getName().getDisplayName());
+      //FileMetadata metadata2 = client.files().uploadBuilder("/unknownEntry.txt").uploadAndFinish(in);
+			
+			// Get files and folder metadata from Dropbox root directory
+			ListFolderResult result = client.files().listFolder("");
+			while (true) {
+				for (Metadata metadata : result.getEntries()) {
+					System.out.println(metadata.getPathLower());
+          //InputStream in = new FileInputStream("unknownEntry.txt");
+          //metadata = client.files().uploadBuilder("/unknownEntry.txt").uploadAndFinish(in);
+				}
+				
+				if (!result.getHasMore()) {
+					break;
+				}
+				
+				result = client.files().listFolderContinue(result.getCursor());
+			}
+      // Upload "test.txt" to Dropbox
+      try (InputStream in = new FileInputStream("unknownEntry.txt")) {
+        FileMetadata metadata = client.files().uploadBuilder("/unknownEntry.txt")
+            .uploadAndFinish(in);
+    }	
+    } catch (DbxException ex1) {
+			ex1.printStackTrace();
+		}
+
+    // Upload "test.txt" to Dropbox
+   // try (InputStream in = new FileInputStream("unknownEntry.txt")) {
+   //  FileMetadata metadata = client.files().uploadBuilder("/unknownEntry.txt").uploadAndFinish(in);
+  //}
 
     // *****USE THIS TO ENSURE JAVA IMAGE ICON, BIN FILE, AND DICTONARY WORKS, make
     // sure image and txt files are in here!*****
@@ -842,7 +907,7 @@ public class ChatBot extends JFrame implements ActionListener {
   // respond by creating sub problems to solve
   // with other methods
   public static void analyzeInput(String userInput) {
-
+   
     // here we check if the input is a greeting or not
     for (int i = 0; i < greetingResponses.size(); i++) {
       // if the user input contains a greeting we simply call the greeting function to
@@ -905,6 +970,13 @@ public class ChatBot extends JFrame implements ActionListener {
 
     // otherwise we call the default response if all other checks don't find a match
     defaultResponse();
+    
+      //send that file to dropbox
+      //String fileName = "default";
+      //fileName = fileName + ".txt";
+
+      //File file = new File(fileName);
+      //file.createNewFile();
     return;
 
   }
@@ -1089,6 +1161,7 @@ public class ChatBot extends JFrame implements ActionListener {
     // If all else fails and the chat bot does not not how to respond, we have these
     // 5 statements set as
     // the chat bot's default responses to any questions it does not know
+    
 
     // random value to select a response
     int selector = (int) (Math.random() * 5);
