@@ -8,11 +8,12 @@ By:
 LANCE ROGAN, STUDENT #62708938 BLAKE ABLITT, STUDENT #37099595 BEN VAN BERGEYK, STUDENT #95307054
 GRIFFIN WILCHUK, STUDENT #75303370 CARLA MATHER, STUDENT #22779193
 */
-
+import java.util.Date;
 //importing all required packages for the program
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 // import java.util.Scanner;, we no longer need a scanner since we are using a GUI
 import java.util.concurrent.TimeUnit;
@@ -22,6 +23,7 @@ import javax.swing.*;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.DeleteResult;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
@@ -32,19 +34,28 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 //import java.io.FileNotFoundException;
 //import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+//import java.security.Timestamp;
+//import java.sql.Date;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 //----------------------------------------------------------------------------------------------------------------------------
 // our class ChatBot which extends JFrame and implements the action listener
 public class ChatBot extends JFrame implements ActionListener {
 
   // ----------------------------------------------------------------------------------------------------------------------------
-  private static final String ACCESS_TOKEN = "sl.BFaAPMI6NzIKxNWPmG2HjI6IbJ0nbXsOa3TI98oI2p-WkmX4TLvwPBw2otnYMJXK_0pZJ_yIrT8NwJVYk5Eys1ijk_ncAtXy6bWI5SDsRjZ6XGt3e-UfPx1_KBWX0KTbcgNfh42H0Dg";
+  private static final String ACCESS_TOKEN = "sl.BFe8tgegLwgzkCYI3nmFws8L69kaF01gSeAkmx66JblSSDDglaw0Q48Y8R4bsxfBEgCC_gRllF2mqaHZvhpNEgaPUPtTH8-gfgOmJotRMurgl9ZmV5szMh4nHjqNq_f2jUqSh8NmMRQ";
   // creating a static ryan reynolds object so its accessible by all methods
   public static RyanReynolds r = new RyanReynolds("6ft 2", 190, "hazel", "light brown", "male", "Vancouver",
       "October 23 1976",
@@ -145,6 +156,13 @@ public class ChatBot extends JFrame implements ActionListener {
   JButton userEnterButton;
   JTextArea chat;
   public static String name;
+
+  // creating Dropbox variables
+  static DbxClientV2 client;
+
+   
+  // 2021.03.24.16.34.26
+  private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
   // ----------------------------------------------------------------------------------------------------------------------------
   // creating a display for user to enter in their user name
@@ -627,7 +645,7 @@ public class ChatBot extends JFrame implements ActionListener {
 		try {
       
 			DbxRequestConfig config = new DbxRequestConfig("dropbox/Assignment4.1");
-			DbxClientV2 client = new DbxClientV2(config, ACCESS_TOKEN);
+			client = new DbxClientV2(config, ACCESS_TOKEN);
 			FullAccount account= client.users().getCurrentAccount();
 			//DbxUserUsersRequests r1 = client.users();
 			//account = r1.getCurrentAccount();
@@ -649,11 +667,6 @@ public class ChatBot extends JFrame implements ActionListener {
 				
 				result = client.files().listFolderContinue(result.getCursor());
 			}
-      // Upload "test.txt" to Dropbox
-      try (InputStream in = new FileInputStream("unknownEntry.txt")) {
-        FileMetadata metadata = client.files().uploadBuilder("/unknownEntry.txt")
-            .uploadAndFinish(in);
-    }	
     } catch (DbxException ex1) {
 			ex1.printStackTrace();
 		}
@@ -970,6 +983,17 @@ public class ChatBot extends JFrame implements ActionListener {
 
     // otherwise we call the default response if all other checks don't find a match
     defaultResponse();
+    try {
+      
+      saveDataInUnkownEntry(userInput);
+      uploadunknownEntryDropBox();
+    } catch (IOException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    } catch (DbxException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
     
       //send that file to dropbox
       //String fileName = "default";
@@ -1269,5 +1293,43 @@ public class ChatBot extends JFrame implements ActionListener {
     // there is no need for further checking
     return true;
   }
+  
+  public static void saveDataInUnkownEntry(String userInput) throws IOException,FileNotFoundException {
+    try{
+      // Create new file
+      String path="C:\\Users\\carla\\Desktop\\School\\Assignment4\\ChatBot\\unknownEntry.txt";
+      File file = new File(path);
+
+      // If file doesn't exists, then create it
+      if (!file.exists()) {
+          file.createNewFile();
+      }
+        BufferedWriter writer = new BufferedWriter(new FileWriter("unknownEntry.txt", true));
+        //writer.write(userInput);
+        //sdf1 = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+        writer.append("\n");
+        //writer.append((CharSequence) sdf1);
+        Date date = new Date();
+        writer.append(sdf1.format(date));
+        writer.append("\n");
+        writer.append(userInput);
+        writer.close();
+
+    }catch(Exception e){
+        System.out.println(e);
+    }
+  }
+
+  public static void uploadunknownEntryDropBox() throws DbxException, IOException{
+    //first delete file in dropbox then upload new appended file
+
+    // Upload "unknownEntry.txt" to Dropbox
+    try (InputStream in = new FileInputStream("unknownEntry.txt")) {
+      DeleteResult metadata1 = client.files().deleteV2("/unknownEntry.txt");
+      FileMetadata metadata2 = client.files().uploadBuilder("/unknownEntry.txt")
+          .uploadAndFinish(in);
+  }	
+  }
+  
 
 }
