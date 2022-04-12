@@ -9,7 +9,7 @@
  <h2>About the Project:</h2>
  <p>This project is a chatbot which takes user inputs and responds as though it is the famous actor Ryan Reynolds. It can handle a wide variety of questions, languages such as spanish, and spelling errors about Ryan Reynolds’ personal life, movies acted in, or businesses. The program will boot up a pre GUI and main GUI and then be ready for the user to ask any question they like. If the chatbot version of Ryan Reynolds knows the answer via array lists and hash mapping then the user will see the response on screen, but if the chatbot version of Ryan Reynolds does not know the answer then the user will see a variety of messages explaining that the chatbot can’t answer their question. Occasionally, if the question is appropriate for a return question, the Ryan Reynolds chatbot will sometimes ask a question back to the user. This will be a response question. This back and forth between the user and the Ryan Reynolds chatbot will go on for an infinite amount of time before the user chooses to end the program with a simple trigger word "Goodbye".
 </p>
-<h2>Personal additions to the Project:</h2>
+<h2>Personal Features to the Project:</h2>
 <h3> DropBox API integration </h3>
 <p> For the personal project I decided to add in dropbox api intergration that will help with future development with the chatbot. With the dropbox integration I added a file called unknownEntry.txt which appeneds the file when someone asks a question that the chat bot currently doesn't understand or spelling errors. This then is uploaded into a dropbox for cloud storage. This allows me to continue to review and update the dictionary and check for common spelling errors that are not currently caught in the spell check api.</p>
 <h3> Google Static Map API integration </h3>
@@ -85,4 +85,10 @@ To end the conversation, simply input "Goodbye", and to clear input, type ".clea
 
 <h3>Feature 4: POS Tagging and Probability toolkit</h3>
 <p>The POS tagging API has been added, but what is used is the Probaility of these POS tags being accurate. This probability is used to make a quick descision on whether or not the input from the user has been spelt correctly. This is done by making sure the probability that the POS tag was correct is good enough, so that it can be ensured it is actually a word. </p>
+
+
+<h3>Feature 5: DropBox api</h3>
+<p>The dropbox API has been added, but what is used is the ability to delete and re-upload files that are constantly changing. </p>
+<h3>Feature 6: Google Static Maps api</h3>
+<p>The Google Static Maps API has been added, but what is used is the ability to have images of locations pop up when the user asks location based questions. </p>
 <br><br>
