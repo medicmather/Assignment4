@@ -26,6 +26,11 @@
  <h2>Google Image GUI Example</h2>
  <img src="images/googlemapsVancouver.jpg" alt="googleMap Gui" />
  <br>
+  <h2>Dropbox Image Example</h2>
+ <img src="images/UnknownEntryimg.jpg" alt="UnknownEntry text" />
+ <img src="images/DropBoxUnknownEntryimg.jpg" alt="Drop Box file" />
+ <img src="images/DropBoxSavedFile.jpg" alt="saved file drop box" />
+ <br>
  <h3>Class Organization:</h3>
  <p>The Class organization of this Chat-Robot is detailed. We have a Business.java class, Movie.java Class, and RyanReynolds.java class which specify the attributes, movies, and businesses that the actor Ryan Renyolds is associated with. Next we have the ChatBot.java class which is the main functionality of this chat bot and is the main class you want to run to run this program. Furthermore, we also have our Tokenizer.java, Translate.java, and POSTagging.java classes which are our 3 toolkit API classes. Lastly, we have our three test cases, checkPOSPRobTest.java, tokenizerTest.java, and wordForWordTest.java which is a unit test for each critical functionality method we implemented.</p>
  <h3>1.) Ryan Reynolds Class:</h3>
