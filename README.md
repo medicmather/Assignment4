@@ -7,7 +7,13 @@
   
  <p align = "center"><a href="https://www.imdb.com/name/nm0005351/">Learn more about Ryan Reynolds</a>
  <h2>About the Project:</h2>
- <p>This project is a chatbot which takes user inputs and responds as though it is the famous actor Ryan Reynolds. It can handle a wide variety of questions, languages such as spanish, and spelling errors about Ryan Reynolds’ personal life, movies acted in, or businesses. The program will boot up a pre GUI and main GUI and then be ready for the user to ask any question they like. If the chatbot version of Ryan Reynolds knows the answer via array lists and hash mapping then the user will see the response on screen, but if the chatbot version of Ryan Reynolds does not know the answer then the user will see a variety of messages explaining that the chatbot can’t answer their question. Occasionally, if the question is appropriate for a return question, the Ryan Reynolds chatbot will sometimes ask a question back to the user. This will be a response question. This back and forth between the user and the Ryan Reynolds chatbot will go on for an infinite amount of time before the user chooses to end the program with a simple trigger word "Goodbye".</p>
+ <p>This project is a chatbot which takes user inputs and responds as though it is the famous actor Ryan Reynolds. It can handle a wide variety of questions, languages such as spanish, and spelling errors about Ryan Reynolds’ personal life, movies acted in, or businesses. The program will boot up a pre GUI and main GUI and then be ready for the user to ask any question they like. If the chatbot version of Ryan Reynolds knows the answer via array lists and hash mapping then the user will see the response on screen, but if the chatbot version of Ryan Reynolds does not know the answer then the user will see a variety of messages explaining that the chatbot can’t answer their question. Occasionally, if the question is appropriate for a return question, the Ryan Reynolds chatbot will sometimes ask a question back to the user. This will be a response question. This back and forth between the user and the Ryan Reynolds chatbot will go on for an infinite amount of time before the user chooses to end the program with a simple trigger word "Goodbye".
+</p>
+<h2>Personal additions to the Project:</h2>
+<h3> DropBox API integration </h3>
+<p> For the personal project I decided to add in dropbox api intergration that will help with future development with the chatbot. With the dropbox integration I added a file called unknownEntry.txt which appeneds the file when someone asks a question that the chat bot currently doesn't understand or spelling errors. This then is uploaded into a dropbox for cloud storage. This allows me to continue to review and update the dictionary and check for common spelling errors that are not currently caught in the spell check api.</p>
+<h3> Google Static Map API integration </h3>
+<p> For the personal project, I also decided to add in google static map api when there is a location based question asked like where a movie was filmed. The api gets the image via a url which is changed into a bufferedimage with a new Jframe that will pop up next to the GUI. Now the chatbot doesn't only write where the film was located but it shows an image of the map of where it was filmed. </p>
  <br>
  <h1>Demonstration</h1>
  <p align="center">
@@ -16,6 +22,9 @@
  <br>
  <h2>Main GUI Example</h2>
  <img src="images/mainGUIExample.png" alt="gui" />
+ <br>
+ <h2>Google Image GUI Example</h2>
+ <img src="images/googlemapsVancouver.jpg" alt="googleMap Gui" />
  <br>
  <h3>Class Organization:</h3>
  <p>The Class organization of this Chat-Robot is detailed. We have a Business.java class, Movie.java Class, and RyanReynolds.java class which specify the attributes, movies, and businesses that the actor Ryan Renyolds is associated with. Next we have the ChatBot.java class which is the main functionality of this chat bot and is the main class you want to run to run this program. Furthermore, we also have our Tokenizer.java, Translate.java, and POSTagging.java classes which are our 3 toolkit API classes. Lastly, we have our three test cases, checkPOSPRobTest.java, tokenizerTest.java, and wordForWordTest.java which is a unit test for each critical functionality method we implemented.</p>
