@@ -41,12 +41,23 @@
     <artifactId>dropbox-core-sdk</artifactId>
     <version>5.2.0</version>
   </dependency>
-  <dependency>
-  <groupId>com.twitter</groupId>
-  <artifactId>twitter-api-java-sdk</artifactId>
-  <version>1.1.2</version>
+  <!-- https://mvnrepository.com/artifact/com.google.maps/google-maps-services -->
+<dependency>
+    <groupId>com.google.maps</groupId>
+    <artifactId>google-maps-services</artifactId>
+    <version>0.1.18</version>
 </dependency>
-
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-simple</artifactId>
+  <version>1.7.25</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/de.pentabyte/google-static-map-creator -->
+<dependency>
+    <groupId>de.pentabyte</groupId>
+    <artifactId>google-static-map-creator</artifactId>
+    <version>2.3.0</version>
+</dependency>
 </dependencies>
  
 
@@ -96,4 +107,12 @@
       </plugins>
     </pluginManagement>
   </build>
+
+
+  <dependencyManagement>
+  
+
+  
+
+  </dependencyManagement>
 </project>

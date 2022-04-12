@@ -1,5 +1,6 @@
 package group10; //importing group10 package for maven project
 
+
 //FINAL A#3 CODE
 // GROUP 10 COSC 310 Main ChatBot Class ** Finished ** 
 // **A#3 FINISHED VERSION**
@@ -29,12 +30,36 @@ import com.dropbox.core.v2.files.ListFolderResult;
 import com.dropbox.core.v2.files.Metadata;
 //import com.dropbox.core.v2.users.DbxUserUsersRequests;
 import com.dropbox.core.v2.users.FullAccount;
+import com.google.maps.model.LatLng;
+
+import org.apache.http.HttpConnection;
+
+import com.google.maps.model.EncodedPolyline;
+
+import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+
+import java.util.List;
+import javax.imageio.ImageIO;
+import java.awt.Image;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.swing.ImageIcon;
+
+
+
+import de.pentabyte.googlemaps.Location;
+import de.pentabyte.googlemaps.StaticMap;
+import de.pentabyte.googlemaps.StaticMap.Maptype;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
+//import java.io.BufferedReader;
+//import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -42,8 +67,9 @@ import java.io.FileNotFoundException;
 //import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.io.IOException;
+
 import java.io.InputStream;
+
 //import java.security.Timestamp;
 //import java.sql.Date;
 import java.sql.Timestamp;
@@ -55,7 +81,7 @@ import java.text.SimpleDateFormat;
 public class ChatBot extends JFrame implements ActionListener {
 
   // ----------------------------------------------------------------------------------------------------------------------------
-  private static final String ACCESS_TOKEN = "sl.BFe8tgegLwgzkCYI3nmFws8L69kaF01gSeAkmx66JblSSDDglaw0Q48Y8R4bsxfBEgCC_gRllF2mqaHZvhpNEgaPUPtTH8-gfgOmJotRMurgl9ZmV5szMh4nHjqNq_f2jUqSh8NmMRQ";
+  private static final String ACCESS_TOKEN = "sl.BFjBX9DAK4MTA5T4LuXg3Nm9YMx2rEOObi_hIjviFB44TaETIjjyQkZnoMHFlNcWdcDP_dXvXiHfrxB1McHT3KK3IcQdjOjzEzQKV5DrlZ54WLGrL0ulUbwRCltH47prQ8QI_Zt9zqI";
   // creating a static ryan reynolds object so its accessible by all methods
   public static RyanReynolds r = new RyanReynolds("6ft 2", 190, "hazel", "light brown", "male", "Vancouver",
       "October 23 1976",
@@ -120,6 +146,8 @@ public class ChatBot extends JFrame implements ActionListener {
   static HashMap<String, String> durationMap = new HashMap<String, String>();
   // Initializing the budget map
   static HashMap<String, String> budgetMap = new HashMap<String, String>();
+  // Initializing theimageLocationMap
+  static HashMap<String, String> imageLocationMap = new HashMap<String, String>();
 
   // creating a public and static JFrame frame
   public static JFrame frame;
@@ -160,9 +188,20 @@ public class ChatBot extends JFrame implements ActionListener {
   // creating Dropbox variables
   static DbxClientV2 client;
 
+  //creating google maps
+  private static String GOOGLEAPI_PROPERTYNAME = "AIzaSyA85bZXkoyo1sZrVCPLH88AN0MWYOvtegU";
+  private static BufferedImage image2;
+	private String googleApiKey = System.getProperty(GOOGLEAPI_PROPERTYNAME);
+
+  
+	//public static SystemPropertyPreCondition check = new SystemPropertyPreCondition(GOOGLEAPI_PROPERTYNAME);
+  static BufferedImage img = null;
+
+
    
   // 2021.03.24.16.34.26
   private static final SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+  private static final String APIKEY = "AIzaSyA85bZXkoyo1sZrVCPLH88AN0MWYOvtegU";
 
   // ----------------------------------------------------------------------------------------------------------------------------
   // creating a display for user to enter in their user name
@@ -304,7 +343,7 @@ public class ChatBot extends JFrame implements ActionListener {
     // device.setFullScreenWindow(frame);
 
     // setting the frame size to be 500 by 500
-    frame.setSize(500, 500);
+    frame.setSize(1000, 1000);
 
     // creating the 2 JPanels
     panel = new JPanel();
@@ -427,6 +466,7 @@ public class ChatBot extends JFrame implements ActionListener {
         movieQuestion.add("length");
         movieQuestion.add("duration");
         movieQuestion.add("budget");
+        movieQuestion.add("ImageLocation");
 
         // Initializing the list of movies
         listOfMovies.add(r.getDeadpool2());
@@ -467,6 +507,7 @@ public class ChatBot extends JFrame implements ActionListener {
         fillInMovieMap(durationMap, "duration");
         // Initializing the budget map
         fillInMovieMap(budgetMap, "budget");
+        fillInMovieMap(imageLocationMap, "imageLocation");
 
         // ----------------------------------------------------------------------------------------------------------------------------
 
@@ -634,14 +675,16 @@ public class ChatBot extends JFrame implements ActionListener {
 
   // this is our main method for the class
   public static void main(String[] args) throws IOException {
-    //String fileLocation="fileLocation"+ fileName;
-    //File file = new File(fileLocation);
+   
+    //StaticMap map = new StaticMap(400, 200, APIKEY);
 
-
-    
-
-    //System.out.println("Hi");
-		
+    //map.setLocation(new Location('Vancouver'), 16);
+    //map.setLocation(center, 16);
+    //map.setMaptype(Maptype.hybrid);
+    //create(map, "location.png");
+ 
+  
+		//dropbox config code
 		try {
       
 			DbxRequestConfig config = new DbxRequestConfig("dropbox/Assignment4.1");
@@ -745,8 +788,11 @@ public class ChatBot extends JFrame implements ActionListener {
 
       } else if (value == "location") {
         map.put(listOfMovies.get(i).getTitle().toLowerCase(),
-            "'s filming location was " + listOfMovies.get(i).getLocation());
-
+              "'s filming location was " + listOfMovies.get(i).getLocation());
+            if(i==0){
+              imageGoogle(listOfMovies.get(i).getTitle().toLowerCase());
+            }
+            
       } else if (value == "time") {
         map.put(listOfMovies.get(i).getTitle().toLowerCase(),
             "'s time taken to film was " + listOfMovies.get(i).getTimeToFilm());
@@ -1305,10 +1351,7 @@ public class ChatBot extends JFrame implements ActionListener {
           file.createNewFile();
       }
         BufferedWriter writer = new BufferedWriter(new FileWriter("unknownEntry.txt", true));
-        //writer.write(userInput);
-        //sdf1 = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
         writer.append("\n");
-        //writer.append((CharSequence) sdf1);
         Date date = new Date();
         writer.append(sdf1.format(date));
         writer.append("\n");
@@ -1322,7 +1365,6 @@ public class ChatBot extends JFrame implements ActionListener {
 
   public static void uploadunknownEntryDropBox() throws DbxException, IOException{
     //first delete file in dropbox then upload new appended file
-
     // Upload "unknownEntry.txt" to Dropbox
     try (InputStream in = new FileInputStream("unknownEntry.txt")) {
       DeleteResult metadata1 = client.files().deleteV2("/unknownEntry.txt");
@@ -1330,6 +1372,223 @@ public class ChatBot extends JFrame implements ActionListener {
           .uploadAndFinish(in);
   }	
   }
-  
 
+  public static void imageGoogle(String str){
+    try {
+        java.net.URL Vancouver = new java.net.URL("https://maps.googleapis.com/maps/api/staticmap?size=400x200&center=Vancouver&zoom=10&maptype=hybrid&key=AIzaSyA85bZXkoyo1sZrVCPLH88AN0MWYOvtegU");
+        BufferedImage Vancouver1 = ImageIO.read(Vancouver);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(Vancouver));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    //return Vancouver;
+  }
+
+ /* public static BufferedImage imageBoston(){
+    try {
+       java.net.URL Boston = new java.net.URL("https://maps.googleapis.com/maps/api/staticmap?size=400x200&center=Boston&zoom=10&maptype=hybrid&key=AIzaSyA85bZXkoyo1sZrVCPLH88AN0MWYOvtegU");
+        //BufferedImage Boston2 = ImageIO.read(Boston);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(Boston));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+ /*  public static BufferedImage imageFreeGuy(){
+    try {
+        java.net.URL freeguy = new java.net.URL("https://maps.googleapis.com/maps/api/staticmap?size=400x200&center=Boston&zoom=10&maptype=hybrid&key=AIzaSyA85bZXkoyo1sZrVCPLH88AN0MWYOvtegU");
+        BufferedImage img = ImageIO.read(freeguy);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+ /* public static BufferedImage imageRIPD(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageGreenLantern(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageBuried(BufferedImage img2){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageSixUnderground(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageRedNotice(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageSelfLess(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageHitmansBodygaurd(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageChangeUp(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+  public static BufferedImage imageTheProposal(){
+    try {
+        java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+        BufferedImage img = ImageIO.read(url2);
+        JFrame frame = new JFrame();
+        JLabel lblimage = new JLabel(new ImageIcon(img));
+        frame.getContentPane().add(lblimage);
+        frame.setSize(500, 500);
+        frame.setVisible(true);
+    } catch (MalformedURLException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    return img;
+  }
+*/
 }

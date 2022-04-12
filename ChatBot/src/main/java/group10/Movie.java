@@ -1,5 +1,10 @@
 package group10;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+
 // GROUP 10 COSC 310 Movie Class ** Finished ** 
 // **A#3 FINISHED VERSION**
 /*
@@ -9,6 +14,8 @@ GRIFFIN WILCHUK, STUDENT #75303370 CARLA MATHER, STUDENT #22779193
 */
 
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Movie {
 
@@ -40,12 +47,14 @@ public class Movie {
     // budget for the movie
     private String budgetOfMovie;
 
+    private BufferedImage imageLocation;
+
     // Below are various constructors for creating movie objects
 
     // First constructor which contains initialization for every attribute
     Movie(double imdbStars, String title, int year, String rating, ArrayList<String> cast, String director,
             String genre, ArrayList<String> awards, String boxOffice, String location, String timeToFilm,
-            String duration, String budgetOfMovie) {
+            String duration, String budgetOfMovie, BufferedImage imageLocation) {
         this.imdbStars = imdbStars;
         this.title = title;
         this.year = year;
@@ -59,6 +68,7 @@ public class Movie {
         this.timeToFilm = timeToFilm;
         this.duration = duration;
         this.budgetOfMovie = budgetOfMovie;
+        this.imageLocation = imageLocation;
     }
 
     // Second constructor which initializes only the title, rating, and genre
@@ -208,6 +218,13 @@ public class Movie {
         this.budgetOfMovie = budgetOfMovie;
     }
 
+    public BufferedImage getImageLocation(){
+        return imageLocation;
+    }
+    public void setImageLocation(BufferedImage img){
+        this.imageLocation = img;
+    }
+
     // toString method for the movies
     public String toString() {
 
@@ -216,7 +233,7 @@ public class Movie {
                 + this.boxOffice
                 + "\n" + "\n" + "Cast: " + this.cast + "\n" + "\n" + "Awards: " + this.awards + "\nFilming Location:"
                 + this.location + "\n Movie Length: " + this.duration + "\n Time Taken to Film: " + this.timeToFilm
-                + " days" + "\n Budget of Movie: " + this.budgetOfMovie;
+                + " days" + "\n Budget of Movie: " + this.budgetOfMovie + "\n Image of Location: " + this.imageLocation;
     }
 
 }

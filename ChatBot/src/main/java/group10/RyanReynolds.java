@@ -1,5 +1,11 @@
 package group10;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+
 // GROUP 10 COSC 310 Ryan Reynolds Class ** Finished ** 
 // **A#3 FINISHED VERSION**
 /*
@@ -11,7 +17,12 @@ GRIFFIN WILCHUK, STUDENT #75303370 CARLA MATHER, STUDENT #22779193
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class RyanReynolds {
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class RyanReynolds{
 
     // Attributes below (referring to physical characteristics)
     // height
@@ -47,6 +58,10 @@ public class RyanReynolds {
     // previous marriage
     private String previousMarriage;
     // other awards
+
+    
+    private static BufferedImage img;
+    
     private ArrayList<String> otherAwards = new ArrayList<>(Arrays.asList("People Magazine's Sexiest Man Alive",
             "Hollywood Walk of Fame", "Governor General's Performing Arts Awards: National Arts Centre Award"));
 
@@ -61,7 +76,7 @@ public class RyanReynolds {
             "Golden Trailer", "HFCS Award", "IGN People's Choice Award", "MTV Movie Award", "OFTA Film Award",
             "Maxwell Weinberg Award", "Teen Choice Award"));
     private Movie deadpool = new Movie(8, "Deadpool", 2016, "R", deadpoolCast, "Tim Miller", "Action and Comedy",
-            deadpoolAwards, "783,100,000", "Vancouver", "48 days", "1hr 48m", "58,000,000");
+            deadpoolAwards, "783,100,000", "Vancouver", "48 days", "1hr 48m", "58,000,000", img);
 
     // getter for deadpool movie
     public Movie getDeadpool() {
@@ -76,7 +91,7 @@ public class RyanReynolds {
     ArrayList<String> deadpool2Awards = new ArrayList<>(
             Arrays.asList("Golden Schmoes", "Golden Trailer", "Aurora Award"));
     private Movie deadpool2 = new Movie(7.7, "Deadpool 2", 2018, "R", deadpool2Cast, "David Leitch",
-            "Action and Comedy", deadpool2Awards, "785,000,000", "Vancouver", "N/A", "2 hours", "110,000,000");
+            "Action and Comedy", deadpool2Awards, "785,000,000", "Vancouver", "N/A", "2 hours", "110,000,000", img);
 
     // getter for deadpool 2 movie
     public Movie getDeadpool2() {
@@ -90,7 +105,7 @@ public class RyanReynolds {
                     "Sophie Levy", "Vernon Scott", "Naheem Garcia", "Anabel Graetz", "Ric Plamenco", "Kenneth Israel"));
     ArrayList<String> freeGuyAwards = new ArrayList<>(Arrays.asList("Golden Angel Award", "SFC Award", "WFCC Award"));
     private Movie freeGuy = new Movie(7.2, "Free Guy", 2021, "PG-13", freeGuyCast, "Shawn Levy", "Action and Comedy",
-            freeGuyAwards, "331,500,000", "Boston", "N/A", "1hr 55m", "125,000,000");
+            freeGuyAwards, "331,500,000", "Boston", "N/A", "1hr 55m", "125,000,000", img);
 
     // getter for free guy movie
     public Movie getFreeGuy() {
@@ -104,7 +119,7 @@ public class RyanReynolds {
             "Piper Mackenzie", "Ben Sloane", "Duncan B. Putney"));
     ArrayList<String> ripdAwards = new ArrayList<>(Arrays.asList("None"));
     private Movie ripd = new Movie(5.6, "R.I.P.D", 2013, "PG-13", ripdCast, "Robert Schwentke", "Action and Comedy",
-            ripdAwards, "78,300,000", "Boston", "N/A", "1hr 36m", "154,000,000");
+            ripdAwards, "78,300,000", "Boston", "N/A", "1hr 36m", "154,000,000", img);
 
     // getter for ripd movie
     public Movie getRIPD() {
@@ -120,7 +135,7 @@ public class RyanReynolds {
             Arrays.asList("ASCAP Award", "Golden Schmoes", "HPA Awards"));
     private Movie greenLantern = new Movie(5.5, "Green Lantern", 2011, "PG-13", greenLanternCast, "Martin Campbell",
             "Action and Sci-Fi", greenLanternAwards, "219,900,000", "Los Angeles", "Approximately 6 months", "2hr 3m",
-            "200,000,000");
+            "200,000,000", img);
 
     // getter for green lantern movie
     public Movie getGreenLantern() {
@@ -136,7 +151,7 @@ public class RyanReynolds {
             "Critics Award", "Chainsaw Award", "Prix Nouveau Genre", "Gaudi Award", "Goya", "Jose Maria Forque Award",
             "NBR Award", "Georges Award", "Sant Jordi", "Grand Prize of European Fantasy Film in Gold"));
     private Movie buried = new Movie(7.0, "Buried", 2010, "R", buriedCast, "Rodrigo Cortes",
-            "Drama, Mystery, and Thriller", buriedAwards, "21,300,000", "Barcelona", "16 days", "1hr 35m", "2,000,000");
+            "Drama, Mystery, and Thriller", buriedAwards, "21,300,000", "Barcelona", "16 days", "1hr 35m", "2,000,000", img);
 
     // getter for buried movie
     public Movie getBuried() {
@@ -150,7 +165,7 @@ public class RyanReynolds {
             "James Carroll Jordan", "Ron Funches", "Daniel Adegboyega"));
     ArrayList<String> sixUndergroundAwards = new ArrayList<>(Arrays.asList("Taurus World Stunt Award"));
     private Movie sixUnderground = new Movie(6.1, "6 Underground", 2019, "R", sixUndergroundCast, "Michael Bay",
-            "Action and Thriller", sixUndergroundAwards, "N/A", "Abu Dhabi", "30 days", "2hr 8m", "150,000,000");
+            "Action and Thriller", sixUndergroundAwards, "N/A", "Abu Dhabi", "30 days", "2hr 8m", "150,000,000", img);
 
     // getter for 6 Underground movie
     public Movie getSixUnderground() {
@@ -164,7 +179,7 @@ public class RyanReynolds {
             "Anthony Belevtsov", "Daniel Bernhardt", "Yosef Podolski"));
     ArrayList<String> redNoticeAwards = new ArrayList<>(Arrays.asList("N/A"));
     private Movie redNotice = new Movie(6.3, "Red Notice", 2021, "PG-13", redNoticeCast, "Rawson Marshall Thurber",
-            "Action, Comedy, and Thriller", redNoticeAwards, "2,000,000", "Atlanta", "N/A", "1hr 57m", "200,000,000");
+            "Action, Comedy, and Thriller", redNoticeAwards, "2,000,000", "Atlanta", "N/A", "1hr 57m", "200,000,000", img);
 
     // getter for red notice movie
     public Movie getRedNotice() {
@@ -178,7 +193,7 @@ public class RyanReynolds {
             "Griff Furst", "Cedric Palmisano", "Tom Waite", "Douglas M. Griffin"));
     ArrayList<String> selfLessAwards = new ArrayList<>(Arrays.asList("N/A"));
     private Movie selfLess = new Movie(6.5, "Self/Less", 2015, "PG-13", selfLessCast, "Tarsem Singh",
-            "Action, Mystery, and Sci-Fi", selfLessAwards, "30,500,000", "New Orleans", "N/A", "1hr 57m", "26,000,000");
+            "Action, Mystery, and Sci-Fi", selfLessAwards, "30,500,000", "New Orleans", "N/A", "1hr 57m", "26,000,000", img);
 
     // getter for self/less movie
     public Movie getSelfLess() {
@@ -193,7 +208,7 @@ public class RyanReynolds {
     ArrayList<String> theHitmansBodyguardAwards = new ArrayList<>(Arrays.asList("Golden Trailer"));
     private Movie theHitmansBodyguard = new Movie(6.9, "The Hitman's Bodyguard", 2017, "R", theHitmansBodyguardCast,
             "Patrick Hughes", "Action, Comedy, and Crime", theHitmansBodyguardAwards, "176,600,000", "Amsterdam", "N/A",
-            "1hr 58m", "69,000,000");
+            "1hr 58m", "69,000,000", img);
 
     // getter for the hitmans bodyguard movie
     public Movie getTheHitmansBodyguard() {
@@ -207,7 +222,7 @@ public class RyanReynolds {
             "Faith Alhadeff", "Luke Bain"));
     ArrayList<String> changeUpAwards = new ArrayList<>(Arrays.asList("N/A"));
     private Movie changeUp = new Movie(6.3, "The Change-up", 2011, "R", changeUpCast, "David Dobkin",
-            "Comedy and Fantasy", changeUpAwards, "75,500,000", "Alpharetta, Georgia", "N/A", "1hr 52m", "52,000,000");
+            "Comedy and Fantasy", changeUpAwards, "75,500,000", "Alpharetta, Georgia", "N/A", "1hr 52m", "52,000,000", img);
 
     // getter for change up movie
     public Movie getChangeUp() {
@@ -223,7 +238,7 @@ public class RyanReynolds {
             "Rembrandt Award", "Teen Choice Award", "WIN Award"));
     private Movie theProposal = new Movie(6.7, "The Proposal", 2009, "PG-13", theProposalCast, "Anne Fletcher",
             "Comedy, Drama, Romance", theProposalAwards, "317,400,000", "Sitka, Alaska", "2 months", "1hr 48m",
-            "40,000,000");
+            "40,000,000", img);
 
     // getter for the proposal movie
     public Movie getTheProposal() {
@@ -464,5 +479,42 @@ public class RyanReynolds {
     public void setotherAwards(ArrayList<String> otherAwards) {
         this.otherAwards = otherAwards;
     }
+
+   /* public static BufferedImage imageHelperMethod(){
+        try {
+            java.net.URL url2 = new java.net.URL("https://media.gq.com/photos/5a04f9a398002d2e253679f5/master/pass/fall-hats-gq-style-0816-01-1.jpg");
+            BufferedImage img = ImageIO.read(url2);
+            JFrame frame = new JFrame();
+            JLabel lblimage = new JLabel(new ImageIcon(img));
+            frame.getContentPane().add(lblimage);
+            frame.setSize(500, 500);
+            frame.setVisible(true);
+        } catch (MalformedURLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return img;
+      }*/
+      //public static BufferedImage imageDeadpool(){
+      //  try {
+      //      java.net.URL url2 = new java.net.URL("https://pbs.twimg.com/profile_images/1208234904405757953/mT0cFOVQ_400x400.jpg");
+      //      BufferedImage img = ImageIO.read(url2);
+       //     JFrame frame = new JFrame();
+      //      JLabel lblimage = new JLabel(new ImageIcon(img));
+       //     frame.getContentPane().add(lblimage);
+      //      frame.setSize(500, 500);
+      //      frame.setVisible(true);
+      //  } catch (MalformedURLException e) {
+      //      // TODO Auto-generated catch block
+      //      e.printStackTrace();
+      //  } catch (IOException e) {
+      //      // TODO Auto-generated catch block
+      //      e.printStackTrace();
+      //  }
+      //  return img;
+     // }
 
 }
